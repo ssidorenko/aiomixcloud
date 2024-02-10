@@ -15,6 +15,7 @@ Specifically:
 
 from json import JSONDecodeError
 from os.path import getsize
+import urllib.parse
 
 import aiohttp
 import yarl
@@ -116,6 +117,7 @@ class Mixcloud:
         by `segment`.  Strip possibly existing leading slash of
         `segment`, for joining to work.
         """
+
         return yarl.URL(url) / segment.lstrip('/')
 
     def _build_url(self, segment):
@@ -150,6 +152,7 @@ class Mixcloud:
         API root, otherwise it is considered as an absolute URL.
         """
         # Relative or not, either way end up with a yarl URL.
+        url = urllib.parse.unquote(url)
         if relative:
             yarl_url = self._build_url(url)
         else:
